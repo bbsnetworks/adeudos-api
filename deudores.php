@@ -59,15 +59,16 @@ if ($loc !== '') {
 */
 $sub = "
   SELECT
-    c.idcliente,
-    c.nombre,
-    c.telefono,
-    c.paquete,
-    c.mensualidad,
-    c.localidad,
-    c.nodo,
-    c.instalacion,
-    MAX(p.fecha) AS ultima_pago, -- <- último mes pagado (periodo)
+  c.idcliente,
+  c.nombre,
+  c.telefono,
+  c.direccion,
+  c.paquete,
+  c.mensualidad,
+  c.localidad,
+  c.nodo,
+  c.instalacion,
+  MAX(p.fecha) AS ultima_pago,
 CASE WHEN MAX(p.fecha) IS NULL THEN 0 ELSE 1 END AS tiene_pago,
 CASE
   WHEN MAX(p.fecha) IS NOT NULL
@@ -117,6 +118,7 @@ $dataSql = "
     t.telefono,
     t.paquete,
     t.mensualidad,
+    t.direccion,
     t.localidad,
     t.nodo,
     t.ultima_pago,
@@ -151,6 +153,7 @@ while ($r = $res->fetch_assoc()) {
     'adeudo_estimado' => (float)$r['adeudo_estimado'],
     'localidad'       => $r['localidad'],
     'nodo'            => $r['nodo'],
+    'direccion'       => $r['direccion'],
   ];
 }
 $stmt->close();
